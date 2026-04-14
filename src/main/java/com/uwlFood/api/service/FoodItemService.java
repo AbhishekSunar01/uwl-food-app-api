@@ -24,7 +24,8 @@ public class FoodItemService {
     }
 
     public FoodItemResDto getFoodItemById(Long id) {
-        return null;
+        FoodItem foodItem = foodItemRepo.findById(id).orElseThrow(() -> new RuntimeException("Food item not found"));
+        return mapToDto(foodItem);
     }
 
     public FoodItemResDto saveFoodItem(FoodItemReqDto req) {
@@ -38,11 +39,18 @@ public class FoodItemService {
     }
 
     public FoodItemResDto updateFoodItem(Long id, FoodItemReqDto req) {
-        return null;
+        FoodItem existingFoodItem = foodItemRepo.findById(id).orElseThrow(() -> new RuntimeException("Food item not found"));
+        existingFoodItem.setFoodName(req.getFoodName());
+        existingFoodItem.setFoodPrice(req.getFoodPrice());
+        existingFoodItem.setFoodCategory(req.getFoodCategory());
+
+        FoodItem updatedFoodItem = foodItemRepo.save(existingFoodItem);
+        return mapToDto(updatedFoodItem);
     }
 
     public void deleteFoodItem(Long id) {
-
+        FoodItem foodItem = foodItemRepo.findById(id).orElseThrow(() -> new RuntimeException("Food item not found"));
+        foodItemRepo.delete(foodItem);
     }
 
     public FoodItemResDto mapToDto(FoodItem foodItem) {
