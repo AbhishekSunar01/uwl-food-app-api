@@ -1,15 +1,37 @@
 package com.uwlFood.api.controller;
 
+import com.uwlFood.api.dto.ApiResponseDto;
+import com.uwlFood.api.dto.FoodItemReqDto;
+import com.uwlFood.api.dto.FoodItemResDto;
 import com.uwlFood.api.service.FoodItemService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api/food-item")
+import java.util.List;
+
+@RequestMapping("api/food-item")
 @RestController
 public class FoodItemController {
     private final FoodItemService foodItemService;
 
     public FoodItemController(FoodItemService foodItemService) {
         this.foodItemService = foodItemService;
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponseDto<List<FoodItemResDto>>> getFoodItems() {
+        List<FoodItemResDto> response = foodItemService.getAllFoodItem();
+        return ResponseEntity.ok(
+                new ApiResponseDto<>(true, response, "Food item fetched successfully")
+        );
+    }
+
+    @PostMapping
+    public ResponseEntity<ApiResponseDto<FoodItemResDto>> saveFoodItem(@RequestBody FoodItemReqDto req) {
+        FoodItemResDto response = foodItemService.saveFoodItem(req);
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                new ApiResponseDto<>(true, response, "Food item added successfully")
+        );
     }
 }
