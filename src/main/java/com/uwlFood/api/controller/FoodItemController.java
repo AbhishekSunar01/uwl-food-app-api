@@ -27,11 +27,36 @@ public class FoodItemController {
         );
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<ApiResponseDto<FoodItemResDto>> getFoodItemById(@PathVariable Long id) {
+        FoodItemResDto response = foodItemService.getFoodItemById(id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                new ApiResponseDto<>(true, response, "Food item by id")
+        );
+    }
+
     @PostMapping
     public ResponseEntity<ApiResponseDto<FoodItemResDto>> saveFoodItem(@RequestBody FoodItemReqDto req) {
         FoodItemResDto response = foodItemService.saveFoodItem(req);
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 new ApiResponseDto<>(true, response, "Food item added successfully")
+        );
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<ApiResponseDto<FoodItemResDto>> updateFoodItem(@PathVariable Long id,@RequestBody FoodItemReqDto req) {
+        FoodItemResDto response = foodItemService.updateFoodItem(id, req);
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                new ApiResponseDto<>(true, response, "Food item updated successfully")
+        );
+    }
+
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<ApiResponseDto<Void>> deleteFoodItem(@PathVariable Long id) {
+        foodItemService.deleteFoodItem(id);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ApiResponseDto<>(true, "Food item deleted successfully")
         );
     }
 }
