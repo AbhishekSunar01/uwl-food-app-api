@@ -11,11 +11,13 @@ public class FoodItemResDto {
     private String foodName;
     private String foodCategory;
     private BigDecimal foodPrice;
+    private String imageUrl;
 
     public FoodItemResDto(FoodItem foodItem) {
         this.foodId = foodItem.getFoodId();
         this.foodName = foodItem.getFoodName();
         this.foodCategory = foodItem.getFoodCategory();
         this.foodPrice = foodItem.getFoodPrice();
+        this.imageUrl = foodItem.getImageUrl();
     }
 }
