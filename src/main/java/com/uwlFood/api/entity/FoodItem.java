@@ -21,5 +21,6 @@ public class FoodItem {
     @Column(nullable = false)
     private BigDecimal foodPrice;
 
-
+    @Column(name = "image_url")
+    private String imageUrl;
 }
